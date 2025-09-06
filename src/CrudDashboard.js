@@ -15,7 +15,7 @@ import {
   sidebarCustomizations,
   formInputCustomizations,
 } from './theme/customizations';
-import { db } from "./firebase";
+
 
 const router = createHashRouter([
   {

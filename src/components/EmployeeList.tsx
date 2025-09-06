@@ -335,6 +335,23 @@ export default function EmployeeList() {
           />
         )}
       </Box>
+
+<Box>
+  <h2>Gas Station Locations</h2>
+      <div style={{ marginTop: "20px", width: "100%", display: "flex", justifyContent: "center" }}>
+        
+        <iframe
+          title="google-map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509426!2d144.95373531531594!3d-37.81627927975165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f2f9b1b9%3A0xbbf5fda2d6c70d!2sGoogle!5e0!3m2!1sen!2sjp!4v1630457636561!5m2!1sen!2sjp"
+          width="600"
+          height="350"
+          style={{ border: 0 }}
+          allowFullScreen={true}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      </Box>
     </PageContainer>
   );
 }
