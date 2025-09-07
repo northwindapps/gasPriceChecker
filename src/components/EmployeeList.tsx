@@ -266,7 +266,7 @@ export default function EmployeeList() {
   const pageTitle = 'Employees';
 
   const flags = [
-    { lat: 35.6895, lng: 139.6917, title: "Tokyo" },
+    { lat: 35.6895, lng: 139.6917, title: "" },
     { lat: 34.0522, lng: -118.2437, title: "Los Angeles" },
   ];
 
@@ -364,9 +364,21 @@ export default function EmployeeList() {
         />
         <FitBounds flags={flags} />
         {flags.map((flag, i) => (
-          <Marker key={i} position={[flag.lat, flag.lng]}>
-            <Popup>{flag.title}</Popup>
-          </Marker>
+          <Marker
+            key={i}
+            position={[flag.lat, flag.lng]}
+            icon={L.divIcon({
+              className: "custom-div-icon",
+              html: `<div style="display: flex; align-items: center;">
+                      <img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" style="width:25px;height:41px;"/>
+                      <span style="background: white; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-size: 14px; border: 1px solid #888;">
+                        ${flag.title}
+                      </span>
+                    </div>`,
+              iconSize: [80, 41],
+              iconAnchor: [12, 41],
+            })}
+          />
         ))}
       </MapContainer>
       </Box>
