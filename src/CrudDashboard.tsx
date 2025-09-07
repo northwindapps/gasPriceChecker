@@ -6,6 +6,7 @@ import EmployeeList from './components/EmployeeList';
 import EmployeeShow from './components/EmployeeShow';
 import EmployeeCreate from './components/EmployeeCreate';
 import EmployeeEdit from './components/EmployeeEdit';
+import GasStationList from './components/GasStationList';
 import NotificationsProvider from './hooks/useNotifications/NotificationsProvider';
 import DialogsProvider from './hooks/useDialogs/DialogsProvider';
 import AppTheme from './shared-theme/AppTheme';
@@ -23,7 +24,7 @@ const router = createHashRouter([
     children: [
       {
         path: '/employees',
-        Component: EmployeeList,
+        Component: GasStationList,
       },
       {
         path: '/employees/:employeeId',
@@ -40,7 +41,7 @@ const router = createHashRouter([
       // Fallback route for the example routes in dashboard sidebar items
       {
         path: '*',
-        Component: EmployeeList,
+        Component: GasStationList,
       },
     ],
   },
