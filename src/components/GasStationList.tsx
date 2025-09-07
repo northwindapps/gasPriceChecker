@@ -232,8 +232,13 @@ export default function GasStationList() {
         field: 'updateDate',
         headerName: 'Update Date',
         width: 180,
-        valueFormatter: ({ value }) =>
-          value ? new Date(value as string).toLocaleString() : '',
+        valueFormatter: (value: any) => {
+          if (!value) return '';
+          const date = new Date(value as string);
+          if (isNaN(date.getTime())) return '';
+          // Format as YYYY-MM-DD HH:MM:SS in UTC
+          return date.toISOString().replace('T', ' ').replace('Z', '');
+        }
       },
       {
         field: 'actions',

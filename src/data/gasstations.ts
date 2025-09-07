@@ -98,22 +98,16 @@ export async function getMany({
   if (sortModel?.length) {
     filtered.sort((a, b) => {
       for (const { field, sort } of sortModel) {
-        let av = a[field as keyof GasStation];
-        let bv = b[field as keyof GasStation];
-
-        // Convert ISO string dates to Date
-        if (field === 'updateDate') {
-          av = new Date(av as string).getTime();
-          bv = new Date(bv as string).getTime();
+        if (a[field as keyof GasStation] < b[field as keyof GasStation]) {
+          return sort === 'asc' ? -1 : 1;
         }
-
-        if (av < bv) return sort === 'asc' ? -1 : 1;
-        if (av > bv) return sort === 'asc' ? 1 : -1;
+        if (a[field as keyof GasStation] > b[field as keyof GasStation]) {
+          return sort === 'asc' ? 1 : -1;
+        }
       }
       return 0;
     });
   }
-
 
   // Apply pagination
   const start = paginationModel.page * paginationModel.pageSize;
