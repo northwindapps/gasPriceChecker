@@ -11,6 +11,7 @@ export interface GasStation {
   longitude: number;
   productType: GasProductType;
   updateDate: string; // ISO date string
+  price: number; // Price in local currency units
 }
 
 const INITIAL_GASSTATIONS_STORE: GasStation[] = [
@@ -23,6 +24,7 @@ const INITIAL_GASSTATIONS_STORE: GasStation[] = [
     longitude: 141.3554755,
     productType: 'normal',
     updateDate: '2024-09-01T10:00:00Z',
+    price: 160, // example price
   },
   {
     id: 2,
@@ -33,6 +35,7 @@ const INITIAL_GASSTATIONS_STORE: GasStation[] = [
     longitude: 141.3260436,
     productType: 'high',
     updateDate: '2024-09-02T11:00:00Z',
+    price: 170,
   },
   {
     id: 3,
@@ -43,6 +46,7 @@ const INITIAL_GASSTATIONS_STORE: GasStation[] = [
     longitude: 141.3389542,
     productType: 'other',
     updateDate: '2024-09-03T12:00:00Z',
+    price: 165,
   },
 ];
 
@@ -138,7 +142,10 @@ export async function createOne(data: Omit<GasStation, 'id' | 'updateDate'>) {
   return newStation;
 }
 
-export async function updateOne(gasStationId: number, data: Partial<Omit<GasStation, 'id' | 'updateDate'>>) {
+export async function updateOne(
+  gasStationId: number,
+  data: Partial<Omit<GasStation, 'id' | 'updateDate'>>
+) {
   const store = getGasStationsStore();
   let updated: GasStation | null = null;
   setGasStationsStore(
@@ -183,7 +190,12 @@ export function validate(gasStation: Partial<GasStation>): ValidationResult {
   if (!gasStation.productType) {
     issues.push({ message: 'Product type is required', path: ['productType'] });
   } else if (!['normal', 'high', 'other'].includes(gasStation.productType)) {
-    issues.push({ message: 'Product type must be \"normal\", \"high\", or \"other\"', path: ['productType'] });
+    issues.push({ message: 'Product type must be "normal", "high", or "other"', path: ['productType'] });
+  }
+  if (gasStation.price == null) {
+    issues.push({ message: 'Price is required', path: ['price'] });
+  } else if (typeof gasStation.price !== 'number' || gasStation.price < 0) {
+    issues.push({ message: 'Price must be a positive number', path: ['price'] });
   }
 
   return { issues };

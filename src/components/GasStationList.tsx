@@ -224,6 +224,7 @@ export default function GasStationList() {
       { field: 'id', headerName: 'ID', width: 70 },
       { field: 'shopName', headerName: 'Shop Name', width: 160 },
       // { field: 'telephone', headerName: 'Telephone', width: 140 },
+      { field: 'price', headerName: 'Price', width: 120 },
       { field: 'address', headerName: 'Address', width: 220 },
       { field: 'latitude', headerName: 'Latitude', width: 120 },
       { field: 'longitude', headerName: 'Longitude', width: 120 },
