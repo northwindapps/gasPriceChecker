@@ -266,7 +266,7 @@ export default function EmployeeList() {
   const pageTitle = 'Employees';
 
   const flags = [
-    { lat: 35.6895, lng: 139.6917, title: "" },
+    { lat: 35.6895, lng: 139.6917, title: "Tokyo" },
     { lat: 34.0522, lng: -118.2437, title: "Los Angeles" },
   ];
 
