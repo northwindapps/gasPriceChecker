@@ -367,7 +367,7 @@ export default function GasStationList() {
                   html: `<div style="display: flex; align-items: center;">
                           <img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" style="width:25px;height:41px;"/>
                           <span style="background: white; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-size: 14px; border: 1px solid #888;">
-                            ${station.shopName}
+                            ${station.price}
                           </span>
                         </div>`,
                   iconSize: [120, 41],
