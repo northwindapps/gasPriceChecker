@@ -265,21 +265,6 @@ export default function EmployeeList() {
 
   const pageTitle = 'Employees';
 
-  const flags = [
-    { lat: 35.6895, lng: 139.6917, title: "Tokyo" },
-    { lat: 34.0522, lng: -118.2437, title: "Los Angeles" },
-  ];
-
-  function FitBounds({ flags }: { flags: { lat: number; lng: number }[] }) {
-  const map = useMap();
-  React.useEffect(() => {
-    const bounds = L.latLngBounds(flags.map(f => [f.lat, f.lng]));
-    map.fitBounds(bounds, { padding: [50, 50] });
-  }, [flags, map]);
-  return null;
-}
-
-
   return (
     <PageContainer
       title={pageTitle}
@@ -356,23 +341,31 @@ export default function EmployeeList() {
 
       <Box>
         <h2>Gas Station Locations</h2>
-        <MapContainer style={{ height: "400px", width: "100%" }} maxBounds={[[85, -180], [-85, 180]]}
-  maxBoundsViscosity={1.0}>
+        <MapContainer
+          style={{ height: "400px", width: "100%" }}
+          center={[20, 0]}      // <-- Add this line
+          zoom={2}              // <-- And this line
+          maxBounds={[[85, -180], [-85, 180]]}
+          maxBoundsViscosity={1.0}
+          minZoom={2}
+        >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
         />
-        <FitBounds flags={flags} />
-        {flags.map((flag, i) => (
+
+        {rowsState.rows
+      .filter(e => e.latitude && e.longitude)
+      .map((employee, i) => (
           <Marker
             key={i}
-            position={[flag.lat, flag.lng]}
+            position={[employee.latitude, employee.longitude]}
             icon={L.divIcon({
               className: "custom-div-icon",
               html: `<div style="display: flex; align-items: center;">
                       <img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" style="width:25px;height:41px;"/>
                       <span style="background: white; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-size: 14px; border: 1px solid #888;">
-                        ${flag.title}
+                        ${employee.name}
                       </span>
                     </div>`,
               iconSize: [80, 41],

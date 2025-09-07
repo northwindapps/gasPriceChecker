@@ -9,6 +9,8 @@ export interface Employee {
   joinDate: string;
   role: EmployeeRole;
   isFullTime: boolean;
+  latitude:number,
+  longitude:number
 }
 
 const INITIAL_EMPLOYEES_STORE: Employee[] = [
@@ -19,6 +21,8 @@ const INITIAL_EMPLOYEES_STORE: Employee[] = [
     joinDate: '2025-07-16T00:00:00.000Z',
     role: 'Finance',
     isFullTime: true,
+    latitude:43.1027173,
+    longitude:141.3554755
   },
   {
     id: 2,
@@ -27,6 +31,8 @@ const INITIAL_EMPLOYEES_STORE: Employee[] = [
     joinDate: '2025-07-16T00:00:00.000Z',
     role: 'Market',
     isFullTime: false,
+    latitude: 43.0996511,
+    longitude: 141.3260436
   },
   {
     id: 3,
@@ -35,6 +41,8 @@ const INITIAL_EMPLOYEES_STORE: Employee[] = [
     joinDate: '2025-07-16T00:00:00.000Z',
     role: 'Development',
     isFullTime: true,
+    latitude: 43.1026961,
+    longitude: 141.3389542
   },
 ];
 
