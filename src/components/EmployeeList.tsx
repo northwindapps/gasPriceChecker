@@ -28,6 +28,9 @@ import {
   type Employee,
 } from '../data/employees';
 import PageContainer from './PageContainer';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 const INITIAL_PAGE_SIZE = 10;
 
@@ -262,6 +265,21 @@ export default function EmployeeList() {
 
   const pageTitle = 'Employees';
 
+  const flags = [
+    { lat: 35.6895, lng: 139.6917, title: "Tokyo" },
+    { lat: 34.0522, lng: -118.2437, title: "Los Angeles" },
+  ];
+
+  function FitBounds({ flags }: { flags: { lat: number; lng: number }[] }) {
+  const map = useMap();
+  React.useEffect(() => {
+    const bounds = L.latLngBounds(flags.map(f => [f.lat, f.lng]));
+    map.fitBounds(bounds, { padding: [50, 50] });
+  }, [flags, map]);
+  return null;
+}
+
+
   return (
     <PageContainer
       title={pageTitle}
@@ -336,21 +354,21 @@ export default function EmployeeList() {
         )}
       </Box>
 
-<Box>
-  <h2>Gas Station Locations</h2>
-      <div style={{ marginTop: "20px", width: "100%", display: "flex", justifyContent: "center" }}>
-        
-        <iframe
-          title="google-map"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509426!2d144.95373531531594!3d-37.81627927975165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f2f9b1b9%3A0xbbf5fda2d6c70d!2sGoogle!5e0!3m2!1sen!2sjp!4v1630457636561!5m2!1sen!2sjp"
-          width="600"
-          height="350"
-          style={{ border: 0 }}
-          allowFullScreen={true}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
+      <Box>
+        <h2>Gas Station Locations</h2>
+        <MapContainer style={{ height: "400px", width: "100%" }} maxBounds={[[85, -180], [-85, 180]]}
+  maxBoundsViscosity={1.0}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+        />
+        <FitBounds flags={flags} />
+        {flags.map((flag, i) => (
+          <Marker key={i} position={[flag.lat, flag.lng]}>
+            <Popup>{flag.title}</Popup>
+          </Marker>
+        ))}
+      </MapContainer>
       </Box>
     </PageContainer>
   );
