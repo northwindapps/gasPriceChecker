@@ -292,6 +292,14 @@ export default function GasStationList() {
 
   const pageTitle = 'Gas Stations';
 
+  function formattedDate(argstr: string): string {
+    return new Date(argstr).toLocaleDateString("ja-JP", { 
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  }
+
   return (
     <PageContainer
       title={pageTitle}
@@ -392,7 +400,7 @@ export default function GasStationList() {
                   html: `<div style="display: flex; align-items: center;">
                           <img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" style="width:25px;height:41px;"/>
                           <span style="background: white; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-size: 14px; border: 1px solid #888;">
-                            ${station.price}
+                            ${formattedDate(station.updateDate)} : ${station.price} 
                           </span>
                         </div>`,
                   iconSize: [120, 41],
