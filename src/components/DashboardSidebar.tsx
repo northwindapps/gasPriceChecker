@@ -134,11 +134,11 @@ export default function DashboardSidebar({
           >
             <DashboardSidebarHeaderItem>Main items</DashboardSidebarHeaderItem>
             <DashboardSidebarPageItem
-              id="employees"
-              title="Employees"
+              id="gasstations"
+              title="Gas Stations"
               icon={<PersonIcon />}
-              href="/employees"
-              selected={!!matchPath('/employees/*', pathname) || pathname === '/'}
+              href="/gasstations"
+              selected={!!matchPath('/gasstations/*', pathname) || pathname === '/'}
             />
             <DashboardSidebarDividerItem />
             <DashboardSidebarHeaderItem>Example items</DashboardSidebarHeaderItem>
