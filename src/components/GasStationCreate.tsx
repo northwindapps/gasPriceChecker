@@ -13,10 +13,17 @@ import GasStationForm, {
 import PageContainer from './PageContainer';
 
 const INITIAL_FORM_VALUES: Partial<GasStationFormState['values']> = {
+  shopName: '',
+  telephone: '',
+  address: '',
+  latitude: undefined,
+  longitude: undefined,
+  price: undefined,
   productType: 'normal',
+  updateDate: '',
 };
 
-export default function EmployeeCreate() {
+export default function GasStationCreate() {
   const navigate = useNavigate();
 
   const notifications = useNotifications();
@@ -72,6 +79,7 @@ export default function EmployeeCreate() {
 
   const handleFormSubmit = React.useCallback(async () => {
     const { issues } = validateGasStation(formValues);
+    console.log("issues", issues);
     if (issues && issues.length > 0) {
       setFormErrors(
         Object.fromEntries(issues.map((issue) => [issue.path?.[0], issue.message])),
@@ -102,7 +110,7 @@ export default function EmployeeCreate() {
 
   return (
     <PageContainer
-      title="New Employee"
+      title="New Gas Station"
       breadcrumbs={[{ title: 'Gas Stations', path: '/gas-stations' }, { title: 'New' }]}
     >
       <GasStationForm

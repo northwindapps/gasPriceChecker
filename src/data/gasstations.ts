@@ -171,16 +171,17 @@ type ValidationResult = { issues: { message: string; path: (keyof GasStation)[] 
 
 export function validate(gasStation: Partial<GasStation>): ValidationResult {
   let issues: ValidationResult['issues'] = [];
-
-  if (!gasStation.shopName) {
-    issues.push({ message: 'Shop name is required', path: ['shopName'] });
-  }
+  //optional
+  // if (!gasStation.shopName) {
+  //   issues.push({ message: 'Shop name is required', path: ['shopName'] });
+  // }
   if (!gasStation.telephone) {
     issues.push({ message: 'Telephone is required', path: ['telephone'] });
   }
-  if (!gasStation.address) {
-    issues.push({ message: 'Address is required', path: ['address'] });
-  }
+  //optional
+  // if (!gasStation.address) {
+  //   issues.push({ message: 'Address is required', path: ['address'] });
+  // }
   if (gasStation.latitude == null) {
     issues.push({ message: 'Latitude is required', path: ['latitude'] });
   }

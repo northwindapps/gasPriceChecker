@@ -191,9 +191,9 @@ export default function GasStationForm(props: GasStationFormProps) {
                 defaultValue=""
                 fullWidth
               >
-                <MenuItem value="Regular">Regular</MenuItem>
-                <MenuItem value="High">High</MenuItem>
-                <MenuItem value="Others">Others</MenuItem>
+                <MenuItem value="normal">normal</MenuItem>
+                <MenuItem value="high">high</MenuItem>
+                <MenuItem value="other">other</MenuItem>
               </Select>
               <FormHelperText>{formErrors.productType ?? ' '}</FormHelperText>
             </FormControl>
