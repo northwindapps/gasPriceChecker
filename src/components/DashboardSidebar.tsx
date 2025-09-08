@@ -141,7 +141,7 @@ export default function DashboardSidebar({
               selected={!!matchPath('/gasstations/*', pathname) || pathname === '/'}
             />
             <DashboardSidebarDividerItem />
-            <DashboardSidebarHeaderItem>Example items</DashboardSidebarHeaderItem>
+            {/* <DashboardSidebarHeaderItem>Example items</DashboardSidebarHeaderItem>
             <DashboardSidebarPageItem
               id="reports"
               title="Reports"
@@ -183,7 +183,7 @@ export default function DashboardSidebar({
               icon={<LayersIcon />}
               href="/integrations"
               selected={!!matchPath('/integrations', pathname)}
-            />
+            /> */}
           </List>
         </Box>
       </React.Fragment>

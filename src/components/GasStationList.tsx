@@ -399,7 +399,7 @@ export default function GasStationList() {
                   className: "custom-div-icon",
                   html: `<div style="display: flex; align-items: center;">
                           <img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" style="width:25px;height:41px;"/>
-                          <span style="background: white; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-size: 14px; border: 1px solid #888;">
+                          <span style="background: white; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-size: 12px; border: 1px solid #888;">
                             ${formattedDate(station.updateDate)} : ${station.price} 
                           </span>
                         </div>`,
