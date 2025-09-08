@@ -31,6 +31,7 @@ import PageContainer from './PageContainer';
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { getGasStationsFirebase } from "../data/firebaseGasStations";
 
 const INITIAL_PAGE_SIZE = 10;
 
@@ -125,27 +126,51 @@ export default function GasStationList() {
     [navigate, pathname, searchParams],
   );
 
+  // const loadData = React.useCallback(async () => {
+  //   setError(null);
+  //   setIsLoading(true);
+
+  //   try {
+  //     const listData = await getGasStations({
+  //       paginationModel,
+  //       sortModel,
+  //       filterModel,
+  //     });
+
+  //     setRowsState({
+  //       rows: listData.items,
+  //       rowCount: listData.itemCount,
+  //     });
+  //   } catch (listDataError) {
+  //     setError(listDataError as Error);
+  //   }
+
+  //   setIsLoading(false);
+  // }, [paginationModel, sortModel, filterModel]);
+
   const loadData = React.useCallback(async () => {
     setError(null);
     setIsLoading(true);
 
     try {
-      const listData = await getGasStations({
-        paginationModel,
-        sortModel,
-        filterModel,
-      });
+      // Fetch from Firebase instead of local store
+      const items = await getGasStationsFirebase();
+
+      // Pagination manually, because Firestore doesn't automatically paginate like local store
+      const start = paginationModel.page * paginationModel.pageSize;
+      const end = start + paginationModel.pageSize;
+      const paginated = items.slice(start, end);
 
       setRowsState({
-        rows: listData.items,
-        rowCount: listData.itemCount,
+        rows: paginated,
+        rowCount: items.length,
       });
     } catch (listDataError) {
       setError(listDataError as Error);
     }
 
     setIsLoading(false);
-  }, [paginationModel, sortModel, filterModel]);
+  }, [paginationModel]);
 
   React.useEffect(() => {
     loadData();
