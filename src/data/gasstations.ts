@@ -1,9 +1,10 @@
 import type { GridFilterModel, GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
-
+import { createGasStationFirebase } from "./firebaseGasStations";
 type GasProductType = 'normal' | 'high' | 'other';
 
 export interface GasStation {
   id: number;
+  docId: string; 
   shopName: string;
   telephone: string;
   address: string;
@@ -15,39 +16,39 @@ export interface GasStation {
 }
 
 const INITIAL_GASSTATIONS_STORE: GasStation[] = [
-  {
-    id: 1,
-    shopName: 'Sapporo Central',
-    telephone: '011-123-4567',
-    address: '1-1 Odori Nishi, Chuo Ward, Sapporo',
-    latitude: 43.1027173,
-    longitude: 141.3554755,
-    productType: 'normal',
-    updateDate: '2024-09-01T10:00:00Z',
-    price: 160, // example price
-  },
-  {
-    id: 2,
-    shopName: 'Kita24',
-    telephone: '011-234-5678',
-    address: '24-2 Kita, Kita Ward, Sapporo',
-    latitude: 43.0996511,
-    longitude: 141.3260436,
-    productType: 'high',
-    updateDate: '2024-09-02T11:00:00Z',
-    price: 170,
-  },
-  {
-    id: 3,
-    shopName: 'Higashi Station',
-    telephone: '011-345-6789',
-    address: '3-3 Higashi, Higashi Ward, Sapporo',
-    latitude: 43.1026961,
-    longitude: 141.3389542,
-    productType: 'other',
-    updateDate: '2024-09-03T12:00:00Z',
-    price: 165,
-  },
+  // {
+  //   id: 1,
+  //   shopName: 'Sapporo Central',
+  //   telephone: '011-123-4567',
+  //   address: '1-1 Odori Nishi, Chuo Ward, Sapporo',
+  //   latitude: 43.1027173,
+  //   longitude: 141.3554755,
+  //   productType: 'normal',
+  //   updateDate: '2024-09-01T10:00:00Z',
+  //   price: 160, // example price
+  // },
+  // {
+  //   id: 2,
+  //   shopName: 'Kita24',
+  //   telephone: '011-234-5678',
+  //   address: '24-2 Kita, Kita Ward, Sapporo',
+  //   latitude: 43.0996511,
+  //   longitude: 141.3260436,
+  //   productType: 'high',
+  //   updateDate: '2024-09-02T11:00:00Z',
+  //   price: 170,
+  // },
+  // {
+  //   id: 3,
+  //   shopName: 'Higashi Station',
+  //   telephone: '011-345-6789',
+  //   address: '3-3 Higashi, Higashi Ward, Sapporo',
+  //   latitude: 43.1026961,
+  //   longitude: 141.3389542,
+  //   productType: 'other',
+  //   updateDate: '2024-09-03T12:00:00Z',
+  //   price: 165,
+  // },
 ];
 
 export function getGasStationsStore(): GasStation[] {
@@ -131,16 +132,19 @@ export async function getOne(gasStationId: number) {
   return found;
 }
 
-export async function createOne(data: Omit<GasStation, 'id' | 'updateDate'>) {
-  const store = getGasStationsStore();
-  const newStation: GasStation = {
-    id: store.reduce((max, s) => Math.max(max, s.id), 0) + 1,
-    ...data,
-    updateDate: new Date().toISOString(),
-  };
-  setGasStationsStore([...store, newStation]);
-  return newStation;
+export async function createOne(gasStation: Omit<GasStation, "id">) {
+  return await createGasStationFirebase(gasStation);
 }
+// export async function createOne(data: Omit<GasStation, 'id' | 'updateDate'>) {
+//   const store = getGasStationsStore();
+//   const newStation: GasStation = {
+//     id: store.reduce((max, s) => Math.max(max, s.id), 0) + 1,
+//     ...data,
+//     updateDate: new Date().toISOString(),
+//   };
+//   setGasStationsStore([...store, newStation]);
+//   return newStation;
+// }
 
 export async function updateOne(
   gasStationId: number,

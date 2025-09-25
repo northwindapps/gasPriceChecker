@@ -291,6 +291,8 @@ export default function GasStationList() {
   );
 
   const pageTitle = 'Gas Stations';
+  const offsetLon = 0.0026; // Approximate correction for 100m eastward shift
+  const offsetLat = 0; // No significant latitudinal offset mentioned
 
   function formattedDate(argstr: string): string {
     return new Date(argstr).toLocaleDateString("ja-JP", { 
@@ -394,7 +396,7 @@ export default function GasStationList() {
             .map((station, i) => (
               <Marker
                 key={i}
-                position={[station.latitude, station.longitude]}
+                position={[station.latitude + offsetLat, station.longitude + offsetLon]}
                 icon={L.divIcon({
                   className: "custom-div-icon",
                   html: `<div style="display: flex; align-items: center;">
