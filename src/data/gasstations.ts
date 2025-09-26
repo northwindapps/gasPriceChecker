@@ -26,70 +26,70 @@ export function setGasStationsStore(gasstations: GasStation[]) {
   return localStorage.setItem('gasstations-store', JSON.stringify(gasstations));
 }
 
-export async function getMany({
-  paginationModel,
-  filterModel,
-  sortModel,
-}: {
-  paginationModel: GridPaginationModel;
-  sortModel: GridSortModel;
-  filterModel: GridFilterModel;
-}): Promise<{ items: GasStation[]; itemCount: number }> {
-  const store = getGasStationsStore();
+// export async function getMany({
+//   paginationModel,
+//   filterModel,
+//   sortModel,
+// }: {
+//   paginationModel: GridPaginationModel;
+//   sortModel: GridSortModel;
+//   filterModel: GridFilterModel;
+// }): Promise<{ items: GasStation[]; itemCount: number }> {
+//   const store = getGasStationsStore();
 
-  let filtered = [...store];
+//   let filtered = [...store];
 
-  // Apply filters
-  if (filterModel?.items?.length) {
-    filterModel.items.forEach(({ field, value, operator }) => {
-      if (!field || value == null) return;
-      filtered = filtered.filter((station) => {
-        const stationValue = station[field as keyof GasStation];
-        switch (operator) {
-          case 'contains':
-            return String(stationValue).toLowerCase().includes(String(value).toLowerCase());
-          case 'equals':
-            return stationValue === value;
-          case 'startsWith':
-            return String(stationValue).toLowerCase().startsWith(String(value).toLowerCase());
-          case 'endsWith':
-            return String(stationValue).toLowerCase().endsWith(String(value).toLowerCase());
-          case '>':
-            return stationValue > value;
-          case '<':
-            return stationValue < value;
-          default:
-            return true;
-        }
-      });
-    });
-  }
+//   // Apply filters
+//   if (filterModel?.items?.length) {
+//     filterModel.items.forEach(({ field, value, operator }) => {
+//       if (!field || value == null) return;
+//       filtered = filtered.filter((station) => {
+//         const stationValue = station[field as keyof GasStation];
+//         switch (operator) {
+//           case 'contains':
+//             return String(stationValue).toLowerCase().includes(String(value).toLowerCase());
+//           case 'equals':
+//             return stationValue === value;
+//           case 'startsWith':
+//             return String(stationValue).toLowerCase().startsWith(String(value).toLowerCase());
+//           case 'endsWith':
+//             return String(stationValue).toLowerCase().endsWith(String(value).toLowerCase());
+//           case '>':
+//             return stationValue > value;
+//           case '<':
+//             return stationValue < value;
+//           default:
+//             return true;
+//         }
+//       });
+//     });
+//   }
 
-  // Apply sorting
-  if (sortModel?.length) {
-    filtered.sort((a, b) => {
-      for (const { field, sort } of sortModel) {
-        if (a[field as keyof GasStation] < b[field as keyof GasStation]) {
-          return sort === 'asc' ? -1 : 1;
-        }
-        if (a[field as keyof GasStation] > b[field as keyof GasStation]) {
-          return sort === 'asc' ? 1 : -1;
-        }
-      }
-      return 0;
-    });
-  }
+//   // Apply sorting
+//   if (sortModel?.length) {
+//     filtered.sort((a, b) => {
+//       for (const { field, sort } of sortModel) {
+//         if (a[field as keyof GasStation] < b[field as keyof GasStation]) {
+//           return sort === 'asc' ? -1 : 1;
+//         }
+//         if (a[field as keyof GasStation] > b[field as keyof GasStation]) {
+//           return sort === 'asc' ? 1 : -1;
+//         }
+//       }
+//       return 0;
+//     });
+//   }
 
-  // Apply pagination
-  const start = paginationModel.page * paginationModel.pageSize;
-  const end = start + paginationModel.pageSize;
-  const paginated = filtered.slice(start, end);
+//   // Apply pagination
+//   const start = paginationModel.page * paginationModel.pageSize;
+//   const end = start + paginationModel.pageSize;
+//   const paginated = filtered.slice(start, end);
 
-  return {
-    items: paginated,
-    itemCount: filtered.length,
-  };
-}
+//   return {
+//     items: paginated,
+//     itemCount: filtered.length,
+//   };
+// }
 
 export async function getOne(gasStationId: number) {
   const store = getGasStationsStore();

@@ -14,6 +14,8 @@ import {
   GridSortModel,
   GridEventListener,
   gridClasses,
+  getGridNumericOperators,
+  getGridStringOperators
 } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -24,7 +26,6 @@ import { useDialogs } from '../hooks/useDialogs/useDialogs';
 import useNotifications from '../hooks/useNotifications/useNotifications';
 import {
   deleteOne as deleteGasStation,
-  getMany as getGasStations,
   type GasStation,
 } from '../data/gasstations';
 import PageContainer from './PageContainer';
@@ -34,6 +35,25 @@ import L from "leaflet";
 import { getGasStationsFirebase } from "../data/firebaseGasStations";
 import { db } from "../firebase";
 const INITIAL_PAGE_SIZE = 10;
+
+const customColumns: GridColDef[] = [
+  {
+    field: 'price',
+    headerName: 'Price',
+    width: 120,
+    filterOperators: getGridStringOperators().filter(
+      (op) => op.value === 'equals'
+    ),
+  },
+  {
+    field: 'shopName',
+    headerName: 'Shop Name',
+    width: 160,
+    filterOperators: getGridStringOperators().filter(
+      (op) => op.value === 'equals' // only keep "contains"
+    ),
+  },
+];
 
 export default function GasStationList() {
   const { pathname } = useLocation();
@@ -134,7 +154,7 @@ export default function GasStationList() {
     const sortField = sortModel.length > 0 ? sortModel[0].field : undefined;
     const sortDirection = sortModel.length > 0 ? sortModel[0].sort : 'asc';
 
-    const items = await getGasStationsFirebase(db,sortField, sortDirection as 'asc' | 'desc');
+    const items = await getGasStationsFirebase(db,sortField, sortDirection as 'asc' | 'desc', filterModel);
 
     const start = paginationModel.page * paginationModel.pageSize;
     const end = start + paginationModel.pageSize;
@@ -149,7 +169,7 @@ export default function GasStationList() {
   }
 
   setIsLoading(false);
-}, [paginationModel, sortModel]);
+}, [paginationModel, sortModel, filterModel]);
 
   React.useEffect(() => {
     loadData();
@@ -225,10 +245,11 @@ export default function GasStationList() {
 
   const columns = React.useMemo<GridColDef[]>(
     () => [
+      ...customColumns,
       // { field: 'id', headerName: 'ID', width: 70 },
-      { field: 'shopName', headerName: 'Shop Name', width: 160 },
+      // { field: 'shopName', headerName: 'Shop Name', width: 160 },
       // { field: 'telephone', headerName: 'Telephone', width: 140 },
-      { field: 'price', headerName: 'Price', width: 120 },
+      // { field: 'price', headerName: 'Price', width: 120 },
       { field: 'address', headerName: 'Address', width: 220 },
       { field: 'latitude', headerName: 'Latitude', width: 120 },
       { field: 'longitude', headerName: 'Longitude', width: 120 },
