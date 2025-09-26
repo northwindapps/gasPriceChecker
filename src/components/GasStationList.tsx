@@ -32,7 +32,7 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { getGasStationsFirebase } from "../data/firebaseGasStations";
-
+import { db } from "../firebase";
 const INITIAL_PAGE_SIZE = 10;
 
 export default function GasStationList() {
@@ -126,51 +126,30 @@ export default function GasStationList() {
     [navigate, pathname, searchParams],
   );
 
-  // const loadData = React.useCallback(async () => {
-  //   setError(null);
-  //   setIsLoading(true);
-
-  //   try {
-  //     const listData = await getGasStations({
-  //       paginationModel,
-  //       sortModel,
-  //       filterModel,
-  //     });
-
-  //     setRowsState({
-  //       rows: listData.items,
-  //       rowCount: listData.itemCount,
-  //     });
-  //   } catch (listDataError) {
-  //     setError(listDataError as Error);
-  //   }
-
-  //   setIsLoading(false);
-  // }, [paginationModel, sortModel, filterModel]);
-
   const loadData = React.useCallback(async () => {
-    setError(null);
-    setIsLoading(true);
+  setError(null);
+  setIsLoading(true);
 
-    try {
-      // Fetch from Firebase instead of local store
-      const items = await getGasStationsFirebase();
+  try {
+    const sortField = sortModel.length > 0 ? sortModel[0].field : undefined;
+    const sortDirection = sortModel.length > 0 ? sortModel[0].sort : 'asc';
 
-      // Pagination manually, because Firestore doesn't automatically paginate like local store
-      const start = paginationModel.page * paginationModel.pageSize;
-      const end = start + paginationModel.pageSize;
-      const paginated = items.slice(start, end);
+    const items = await getGasStationsFirebase(db,sortField, sortDirection as 'asc' | 'desc');
 
-      setRowsState({
-        rows: paginated,
-        rowCount: items.length,
-      });
-    } catch (listDataError) {
-      setError(listDataError as Error);
-    }
+    const start = paginationModel.page * paginationModel.pageSize;
+    const end = start + paginationModel.pageSize;
+    const paginated = items.slice(start, end);
 
-    setIsLoading(false);
-  }, [paginationModel]);
+    setRowsState({
+      rows: paginated,
+      rowCount: items.length,
+    });
+  } catch (listDataError) {
+    setError(listDataError as Error);
+  }
+
+  setIsLoading(false);
+}, [paginationModel, sortModel]);
 
   React.useEffect(() => {
     loadData();
@@ -246,7 +225,7 @@ export default function GasStationList() {
 
   const columns = React.useMemo<GridColDef[]>(
     () => [
-      { field: 'id', headerName: 'ID', width: 70 },
+      // { field: 'id', headerName: 'ID', width: 70 },
       { field: 'shopName', headerName: 'Shop Name', width: 160 },
       // { field: 'telephone', headerName: 'Telephone', width: 140 },
       { field: 'price', headerName: 'Price', width: 120 },

@@ -15,41 +15,7 @@ export interface GasStation {
   price: number; // Price in local currency units
 }
 
-const INITIAL_GASSTATIONS_STORE: GasStation[] = [
-  // {
-  //   id: 1,
-  //   shopName: 'Sapporo Central',
-  //   telephone: '011-123-4567',
-  //   address: '1-1 Odori Nishi, Chuo Ward, Sapporo',
-  //   latitude: 43.1027173,
-  //   longitude: 141.3554755,
-  //   productType: 'normal',
-  //   updateDate: '2024-09-01T10:00:00Z',
-  //   price: 160, // example price
-  // },
-  // {
-  //   id: 2,
-  //   shopName: 'Kita24',
-  //   telephone: '011-234-5678',
-  //   address: '24-2 Kita, Kita Ward, Sapporo',
-  //   latitude: 43.0996511,
-  //   longitude: 141.3260436,
-  //   productType: 'high',
-  //   updateDate: '2024-09-02T11:00:00Z',
-  //   price: 170,
-  // },
-  // {
-  //   id: 3,
-  //   shopName: 'Higashi Station',
-  //   telephone: '011-345-6789',
-  //   address: '3-3 Higashi, Higashi Ward, Sapporo',
-  //   latitude: 43.1026961,
-  //   longitude: 141.3389542,
-  //   productType: 'other',
-  //   updateDate: '2024-09-03T12:00:00Z',
-  //   price: 165,
-  // },
-];
+const INITIAL_GASSTATIONS_STORE: GasStation[] = [];
 
 export function getGasStationsStore(): GasStation[] {
   const stringified = localStorage.getItem('gasstations-store');
@@ -135,16 +101,6 @@ export async function getOne(gasStationId: number) {
 export async function createOne(gasStation: Omit<GasStation, "id">) {
   return await createGasStationFirebase(gasStation);
 }
-// export async function createOne(data: Omit<GasStation, 'id' | 'updateDate'>) {
-//   const store = getGasStationsStore();
-//   const newStation: GasStation = {
-//     id: store.reduce((max, s) => Math.max(max, s.id), 0) + 1,
-//     ...data,
-//     updateDate: new Date().toISOString(),
-//   };
-//   setGasStationsStore([...store, newStation]);
-//   return newStation;
-// }
 
 export async function updateOne(
   gasStationId: number,
